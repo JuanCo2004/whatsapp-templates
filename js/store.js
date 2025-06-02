@@ -34,7 +34,13 @@ function createStore(initialStore = []){
     }
 }
 
-const templateStore = createStore();
+// Plantillas iniciales de ejemplo
+const initialTemplates = [
+    { id: 1, nombre: "Bienvenida", contenido: "Hola, bienvenido a nuestro servicio." },
+    { id: 2, nombre: "Recordatorio", contenido: "Este es un recordatorio de su cita." }
+];
+
+const templateStore = createStore(initialTemplates);
 
 //Para crear una variable de manera global en todos mis archivos:
 window.templateStore = templateStore;

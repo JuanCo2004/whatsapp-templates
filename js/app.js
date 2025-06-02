@@ -32,15 +32,13 @@ btnSave.addEventListener("click", function(){
     // 2. Spread operator
     plantillas = [...plantillas, newTemplate]
 
-    console.log(plantillas)
-
     //Volver a renderizar:
     renderizarUI();
 
 })
 
 function eliminarPlantilla(index){
-    plantillas = plantillas.filter((element, i) => i!==index)
+    plantillas = plantillas.filter((_, i) => i!==index)
 
     //Volver a renderizar:
     renderizarUI();
@@ -52,7 +50,7 @@ function renderizarUI(){
     //Limpiar el contenedor
     containerTemplate.innerHTML=""
     //Vamos a renderizarla
-    plantillas.forEach((element)=>{
+    plantillas.forEach((element, index)=>{
         containerTemplate.innerHTML += `
         <div class="bg-gray-50 rounded-lg p-6 border border-gray-200 hover:border-purple-300 transition duration-300 hover:shadow-md">
             <div class="flex flex-col lg:flex-row lg:items-start gap-4">
@@ -86,7 +84,7 @@ function renderizarUI(){
                         <i class="fas fa-edit"></i>
                         <span class="hidden sm:inline">Editar</span>
                     </button>
-                    <button onclick="eliminarPlantilla(index)" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 flex items-center gap-2 text-sm">
+                    <button onclick="eliminarPlantilla(${index})" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 flex items-center gap-2 text-sm">
                         <i class="fas fa-trash"></i>
                         <span class="hidden sm:inline">Eliminar</span>
                     </button>
