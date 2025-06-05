@@ -19,32 +19,36 @@ btnSave.addEventListener("click", function(){
     // let valueHashtag = inputHashtag.value;
     // let valueMessage = inputMessage.value;
 
-    const inputTitle = document.querySelector("#template-title").value.trim()
-    const inputHashtag = document.querySelector("#template-hashtag").value.trim()
-    const inputMessage = document.querySelector("#template-message").value.trim()
+    const inputTitle = document.querySelector("#template-title").value.trim();
+    const inputHashtag = document.querySelector("#template-hashtag").value.trim();
+    const inputMessage = document.querySelector("#template-message").value.trim();
 
-    const newTemplate = new Template(inputTitle, inputMessage, inputHashtag)
+    const newTemplate = new Template(inputTitle.value.trim(), 
+                                    inputMessage.value.trim(),
+                                    inputHashtag.value.trim(),
+                                    );
+    window.templateStore.addTemplate(newTemplate);
+    //Eliminamos el llamado a esta función porque ahora es parte de nuestro listener
+    //renderizarUI();
 
-    //Vamos a insertar las plantillas:
-    // 1. Push
-    // plantillas.push(newTemplate)
-
-    // 2. Spread operator
-    plantillas = [...plantillas, newTemplate]
-
-    //Volver a renderizar:
-    renderizarUI();
-
+    //Limpieza de los selectores:
+    inputTitle.value = "";
+    inputHashtag.value = "";
+    inputMessage.value = "";
+    //Actualización de la estadística:
+    const totalTemplates = document.querySelector("#total-templates")
+    console.log
 })
 
 function eliminarPlantilla(index){
-    plantillas = plantillas.filter((_, i) => i!==index)
+    plantillas = plantillas.filter((element, i) => i!==index)
 
     //Volver a renderizar:
     renderizarUI();
 }
 
 function renderizarUI(){
+    console.log("renderUI");
     //Renderizar el arreglo dentro de el contenedor div
     const containerTemplate = document.querySelector("#templates-container")
     //Limpiar el contenedor
@@ -67,7 +71,6 @@ function renderizarUI(){
                             Creado hace 2 días
                         </div>
                     </div>
-                    
                     <div class="bg-white p-4 rounded-lg border border-gray-200 mb-4">
                         <p class="text-gray-700 text-sm leading-relaxed">
                             ${element.mensaje}
@@ -92,5 +95,11 @@ function renderizarUI(){
             </div>
         </div>
         `
-    })
+    });
+    //
 }
+
+window.templateStore.suscribe(renderizarUI);
+window.templateStore.suscribe(savePersistanceData);
+
+renderizarUI(window.templateStore.getState());

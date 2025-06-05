@@ -19,12 +19,30 @@ function createStore(initialStore = []){
     //Esta función se va a encargar de manipular el nuevo estado:
     function setState(newState){
         state = newState;
+
+        //Cuando el estado cambie vamos a llamar a las funciones
+        //Para eso se requiere iterar el arreglo listeners
     }
 
     function addTemplate(newTemplate){
         //Insertar este nuevo elemento en el array state:
         const newState = [...state, newTemplate]
         setState(newState)
+    }
+
+    function subscribe(listener){
+        listeners.push(listener);
+
+        // Aseguramos que no se suscriban 2 listener iguales
+        return () => {
+            // Buscar el listener
+            const index = listener.indexOf(listener);
+            // Retorna la posición (index)
+            if(index > -1){
+                listeners.splice(index,1);
+            }
+        }
+
     }
     
     return{
