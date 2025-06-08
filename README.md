@@ -37,3 +37,34 @@ Esto crea un nuevo array que copia todos los elementos anteriores más el nuevo,
 
 plantillas = plantillas.filter((_, i) => i !== index)
 Esto devuelve un nuevo array sin el elemento eliminado, sin cambiar el array original.
+
+
+### Sincronización y Persistencia en la Gestión de Plantillas
+
+#### Sincronización: Patrón Store con Observadores
+
+Se utilizó un **patrón Store personalizado** para centralizar el estado de las plantillas y sincronizar automáticamente los cambios con la interfaz de usuario (UI). Esto se logró mediante una lista de funciones suscritas (listeners) que se ejecutan automáticamente cuando el estado cambia.
+
+##### Componentes clave:
+- **`state`**: almacena internamente el array de plantillas.
+- **`setState(newState)`**: actualiza el estado y notifica a los observadores.
+- **`suscribe(listener)`**: registra funciones que reaccionan a los cambios (como el renderizado).
+- **`addTemplate()`, `editTemplate()`, `removeTemplate()`**: modifican el estado y disparan actualizaciones automáticas en la UI.
+
+Este patrón garantiza que cualquier cambio en el estado se refleje **en tiempo real** en la interfaz.
+
+---
+
+#### Persistencia: `localStorage`
+
+Para mantener los datos incluso tras cerrar el navegador, se implementó persistencia usando el API `localStorage`.
+
+##### Funciones implementadas:
+- **`savePersistenceData(state)`**: guarda el estado en `localStorage` en formato JSON.
+- **`getPersistenceData()`**: recupera el estado almacenado y lo parsea.
+- **`deletePersistenceData()`**: limpia todos los datos almacenados.
+
+El Store se inicializa con los datos persistidos al cargar la aplicación:
+
+```js
+const templateStore = createStore(getPersistenceData());

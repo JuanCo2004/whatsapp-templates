@@ -22,15 +22,29 @@ function createStore(initialStore = []){
 
         //Cuando el estado cambie vamos a llamar a las funciones
         //Para eso se requiere iterar el arreglo listeners
+        listeners.forEach(function(listener){
+            listener(state);
+        });
+    }
+
+    function removeTemplate(index){
+        const newState = state.filter((_, i) => i !== index);
+        setState(newState);
+    }
+
+    function editTemplate(index, updatedTemplate) {
+        const newState = state.map((item, i) => i === index ? updatedTemplate : item);
+        setState(newState);
     }
 
     function addTemplate(newTemplate){
-        //Insertar este nuevo elemento en el array state:
-        const newState = [...state, newTemplate]
-        setState(newState)
+        // Insertar este nuevo elemento en el array state
+        //  ... => Spread operator, que nos permite copiar el contenido de un array
+        const newState = [...state, newTemplate];
+        setState(newState);
     }
 
-    function subscribe(listener){
+    function suscribe(listener){
         listeners.push(listener);
 
         // Aseguramos que no se suscriban 2 listener iguales
@@ -41,24 +55,20 @@ function createStore(initialStore = []){
             if(index > -1){
                 listeners.splice(index,1);
             }
-        }
-
+        };
     }
     
     return{
         getState,
         addTemplate,
-        setState
-    }
+        setState,
+        suscribe,
+        removeTemplate,
+        editTemplate
+    };
 }
 
-// Plantillas iniciales de ejemplo
-const initialTemplates = [
-    { id: 1, nombre: "Bienvenida", contenido: "Hola, bienvenido a nuestro servicio." },
-    { id: 2, nombre: "Recordatorio", contenido: "Este es un recordatorio de su cita." }
-];
-
-const templateStore = createStore(initialTemplates);
+const templateStore = createStore(getPersistenceData());
 
 //Para crear una variable de manera global en todos mis archivos:
 window.templateStore = templateStore;
