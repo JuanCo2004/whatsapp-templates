@@ -44,6 +44,10 @@ function createStore(initialStore = []){
         setState(newState);
     }
 
+    function clearAllTemplates(){
+        setState([]);  // vacía el array y actualiza listeners
+    }
+
     function suscribe(listener){
         listeners.push(listener);
 
@@ -64,7 +68,8 @@ function createStore(initialStore = []){
         setState,
         suscribe,
         removeTemplate,
-        editTemplate
+        editTemplate,
+        clearAllTemplates
     };
 }
 
@@ -72,3 +77,4 @@ const templateStore = createStore(getPersistenceData());
 
 //Para crear una variable de manera global en todos mis archivos:
 window.templateStore = templateStore;
+

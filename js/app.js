@@ -138,3 +138,102 @@ window.templateStore.suscribe(renderizarUI);
 window.templateStore.suscribe(savePersistenceData);
 
 renderizarUI(window.templateStore.getState());
+
+/*HU13: Buscar plantillas por palabra clave*/
+const inputSearch = document.querySelector("#search-templates");
+
+inputSearch.addEventListener("input", (e) => {
+    const keyword = e.target.value.trim().toLowerCase();
+    const allTemplates = window.templateStore.getState();
+
+    if (keyword === "") {
+        renderizarUI(allTemplates);
+        return;
+    }
+
+    const filteredTemplates = allTemplates.filter(template =>
+        template.titulo.toLowerCase().includes(keyword)
+    );
+
+    renderizarUI(filteredTemplates);
+});
+
+/* HU14 - Borrar todas las plantillas con confirmación*/
+const btnDeleteAll = document.querySelector("#btn-delete-all");
+
+btnDeleteAll.addEventListener("click", function() {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Esta acción eliminará todas las plantillas permanentemente.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, borrar todas',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Vaciar el arreglo de plantillas en el store
+            window.templateStore.clearAllTemplates();
+            Swal.fire('¡Borrado!', 'Todas las plantillas han sido eliminadas.', 'success');
+        }
+    });
+});
+
+/*HU15: Filtrar plantillas por hashtag */
+// Estado para mantener el hashtag seleccionado en el filtro
+let filtroHashtag = "Todos los hashtags";
+
+const selectFiltro = document.querySelector("#filter-hashtag");
+
+// Función para obtener todos los hashtags únicos del estado
+function obtenerHashtagsUnicos(state) {
+    const hashtags = new Set();
+    state.forEach(item => {
+        if(item.hashtag && item.hashtag.trim() !== "") {
+            hashtags.add(item.hashtag.trim());
+        }
+    });
+    return Array.from(hashtags).sort();
+}
+
+// Función para actualizar las opciones del filtro
+function actualizarOpcionesFiltro(state) {
+    const hashtags = obtenerHashtagsUnicos(state);
+    selectFiltro.innerHTML = `<option value="Todos los hashtags">Todos los hashtags</option>`;
+    hashtags.forEach(ht => {
+        selectFiltro.innerHTML += `<option value="${ht}">${ht}</option>`;
+    });
+
+    // Mantener el valor seleccionado tras actualización
+    selectFiltro.value = filtroHashtag;
+}
+
+// Función para filtrar plantillas según el filtro seleccionado
+function filtrarPlantillasPorHashtag(state, hashtag) {
+    if (hashtag === "Todos los hashtags") {
+        return state;
+    }
+    return state.filter(p => p.hashtag === hashtag);
+}
+
+// Nuevo renderizado filtrado
+function renderizarUIFiltrado(state) {
+    const estadoFiltrado = filtrarPlantillasPorHashtag(state, filtroHashtag);
+    renderizarUI(estadoFiltrado);  // Usamos la función que ya tienes para renderizar
+    actualizarOpcionesFiltro(state); // Actualizamos opciones cada vez que se renderiza (por si hay hashtags nuevos)
+}
+
+// Escuchar cambios en el selector de filtro
+selectFiltro.addEventListener("change", (e) => {
+    filtroHashtag = e.target.value;
+    renderizarUIFiltrado(window.templateStore.getState());
+});
+
+// Cambiar las suscripciones para usar el render filtrado
+window.templateStore.suscribe(renderizarUIFiltrado);
+window.templateStore.suscribe(savePersistenceData);
+
+// Inicializar
+actualizarOpcionesFiltro(window.templateStore.getState());
+renderizarUIFiltrado(window.templateStore.getState());

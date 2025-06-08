@@ -20,6 +20,9 @@
         <p class="text-gray-600 text-lg">
           Administra y organiza tus plantillas de mensajes de WhatsApp
         </p>
+        <button id="toggle-darkmode" class="ml-2 text-xl px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+            Cambiar tema
+        </button>
       </header>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -183,6 +186,9 @@
 
           <!-- Filtros y búsqueda -->
           <div class="flex flex-col sm:flex-row gap-3">
+            <button id="btn-delete-all" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">
+                Borrar todas las plantillas
+            </button>
             <div class="relative">
               <input
                 type="text"

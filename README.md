@@ -1,4 +1,24 @@
 # whatsapp-templates
+Historias de usuario adicionales para el proyecto:
+## HU13: Buscar plantillas por palabra clave
+Como usuario, quiero buscar plantillas escribiendo una palabra clave para encontrar rápidamente las que necesito sin tener que revisar manualmente toda la lista.
+. Criterios de Aceptación:
+- Se debe filtrar dinámicamente la lista de plantillas mientras el usuario escribe en el campo de búsqueda.
+- Si no hay resultados coincidentes, debe mostrarse un mensaje claro de "No se encontraron plantillas".
+- La búsqueda debe ser insensible a mayúsculas y funcionar también con palabras parciales.
+
+# HU14 – Borrar todas las plantillas
+Como usuario, quiero un botón para borrar todas las plantillas de una vez, para limpiar mi espacio de trabajo rápidamente.
+Debe confirmar antes de borrar para evitar pérdidas accidentales.
+
+## HU15: Filtrar plantillas por hashtag
+Como usuario, quiero filtrar las plantillas usando un selector de hashtags para visualizar solo las que pertenecen a una categoría específica.
+. Criterios de Aceptación:
+- Al seleccionar un hashtag del menú desplegable, solo se deben mostrar las plantillas que lo contienen.
+- Si se selecciona "Todos los hashtags", deben mostrarse todas las plantillas sin filtro.
+- El filtro debe mantenerse aplicado incluso al editar o eliminar una plantilla, sin resetearse automáticamente
+
+
 ### Descripción técnica de las propiedades y métodos de la clase Template implementada
 La clase Template representa una plantilla individual que contiene datos locales del usuario como el título, el mensaje y el hashtag. Esta clase encapsula el estado local como un método para visualizarlo.
 
