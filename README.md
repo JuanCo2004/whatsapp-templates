@@ -7,7 +7,7 @@ Como usuario, quiero buscar plantillas escribiendo una palabra clave para encont
 - Si no hay resultados coincidentes, debe mostrarse un mensaje claro de "No se encontraron plantillas".
 - La búsqueda debe ser insensible a mayúsculas y funcionar también con palabras parciales.
 
-# HU14 – Borrar todas las plantillas
+## HU14 – Borrar todas las plantillas
 Como usuario, quiero un botón para borrar todas las plantillas de una vez, para limpiar mi espacio de trabajo rápidamente.
 Debe confirmar antes de borrar para evitar pérdidas accidentales.
 
